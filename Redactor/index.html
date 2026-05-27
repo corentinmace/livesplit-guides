@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="redactor/redactor.js"></script>
+    <script type="text/javascript" src="redactor/_langs/fr.js"></script>
+    <script type="text/javascript" src="redactor/plugins/fontcolor/fontcolor.js"></script>
+    <script type="text/javascript" src="redactor/plugins/imagemanager/imagemanager.js"></script>
+    <script type="text/javascript" src="redactor/plugins/video/video.js"></script>
+    <script type="text/javascript" src="redactor/plugins/table/table.js"></script>
+    <script type="text/javascript" src="redactor/plugins/alignment/alignment.js"></script>
+    <link type="text/css" media="screen" rel="stylesheet" href="redactor/redactor.css" />
+    <link type="text/css" media="screen" rel="stylesheet" href="redactor/custom_redactor.css" />
+    <title>Redactor Example</title>
+</head>
+<body>
+    <textarea class="redactor_content"></textarea>
+<script>
+    $R(".redactor_content", {
+        lang: 'fr',
+        minHeight: '300px',
+        maxWidth: '800px',
+        buttons: ['html', 'format', 'bold', 'italic', 'deleted', 'underline', 'ol', 'ul', 'image', 'video', 'table',
+            'link', 'fontcolor', 'alignment', 'line'],
+        imageUpload: 'redactor_image_upload.php',
+        imageResizable: true,
+        imagePosition: true,
+        plugins: ["fontcolor", "video", "alignment", 'imagemanager', "table"],
+        toolbarFixed: true,
+        toolbarFixedTopOffset: 0,
+        replaceTags: {
+            'strong':'b',
+            'em':'i',
+            'strike':'s',
+            'del':'s',
+        },
+        formattingHide: ['pre', 'h4', 'h5', 'h6'],
+    })
+</script>
+</body>
+</html>

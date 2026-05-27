@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Editor - LiveSplit Guides</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../../Redactor/redactor/redactor.css" />
+  <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+</head>
+<body class="editor-page">
+
+  <div id="editor-toolbar">
+    <div id="editor-toolbar-left">
+      <input id="guide-name-input" type="text" placeholder="Guide name (e.g. Celeste Any%)" />
+      <button id="btn-new-guide">New</button>
+      <select id="editor-guide-select">
+        <option value="">-- Open a guide --</option>
+      </select>
+      <button id="btn-fetch-splits" title="Capture the split currently active in LiveSplit" disabled>
+        <i class="fa-solid fa-download"></i> Capture split
+      </button>
+      <button id="btn-import-lss" title="Import splits from a .lss file">
+        <i class="fa-solid fa-folder-open"></i> .lss
+      </button>
+      <button id="btn-delete-guide" title="Delete this guide"><i class="fa-solid fa-trash"></i></button>
+    </div>
+    <div id="editor-toolbar-right">
+      <span id="editor-status-dot" class="dot disconnected"></span>
+      <span id="editor-status-label">Disconnected</span>
+      <button id="btn-retry-ws" class="hidden" title="Retry connection"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+      <button id="btn-theme-toggle" title="Toggle light/dark theme"></button>
+      <button id="btn-add-split"><i class="fa-solid fa-plus"></i> Split</button>
+      <button id="btn-save" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+    </div>
+  </div>
+
+  <div id="editor-body">
+    <div id="split-list-panel">
+      <div id="split-list"></div>
+    </div>
+
+    <div id="split-editor-panel">
+      <div id="split-editor-empty">Select or create a split.</div>
+      <div id="split-editor-form" class="hidden">
+        <div id="split-editor-header">
+          <input id="split-name-input" type="text" placeholder="Split name" />
+          <button id="btn-remove-split"><i class="fa-solid fa-trash"></i> Delete split</button>
+        </div>
+        <label>Notes</label>
+        <textarea id="split-notes-editor"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../Redactor/redactor/redactor.js"></script>
+  <script src="../../Redactor/redactor/plugins/alignment/alignment.js"></script>
+  <script src="../../Redactor/redactor/plugins/fontcolor/fontcolor.js"></script>
+  <script src="../../Redactor/redactor/plugins/fontsize/fontsize.js"></script>
+  <script src="../../Redactor/redactor/plugins/fontfamily/fontfamily.js"></script>
+  <script src="../../Redactor/redactor/plugins/table/table.js"></script>
+  <script src="../../Redactor/redactor/plugins/video/video.js"></script>
+  <script src="../../Redactor/redactor/plugins/specialchars/specialchars.js"></script>
+  <script src="ws.js"></script>
+  <script src="editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+/* GENERAL */
+
+.redactor-box {
+    width: 700px;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    overflow: hidden;
+}
+
+.redactor-toolbar {
+    padding: 10px 15px 5px !important;
+    background: #f3f3f3;
+}
+.redactor-styles {
+    padding: 5px 15px 15px;
+}
+
+.redactor-focus.redactor-styles-on, .redactor-focus:focus.redactor-styles-on {
+    border-color: #adadad !important;
+}
+
+.redactor-toolbar a.re-button-icon, .redactor-air a.re-button-icon {
+    padding: 5px 10px;
+}
+.redactor-toolbar a, .redactor-air a {
+    margin-right: 7px;
+}
+
+.redactor-toolbar a,
+.redactor-air a {
+    transition: background .15s ease }
+
+.redactor-toolbar a:hover,
+.redactor-air a:hover,
+.redactor-source-view .redactor-toolbar a:hover {
+    color: #000b1d;
+    background: #e4e8ed; }
+
+.img-upload-form-ctn form {
+    display: flex;
+    gap: 5px;
+}
+.img-upload-or {
+    margin: 10px 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.img-upload {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/*.redactor-toolbar a:hover,*/
+/*.redactor-air a:hover,*/
+/*.redactor-source-view .redactor-toolbar a:hover,*/
+.redactor-dropdown a:hover {
+    background: #374151 !important;
+}
+
+.redactor-dropdown-fontcolor a {
+    margin: 3px 0 5px 0;
+    width: 100%;
+}
+.redactor-dropdown-fontcolor a:hover {
+    background-color: #f3f3f3 !important;
+    color: unset !important;
+}
+
+.redactor-toolbar a.redactor-button-active {
+    color: initial !important;
+}
+
+.redactor-dropdown-selector span:not(.active):hover {
+    opacity: 1;
+    background-color: #f3f3f3;
+}
+
+.redactor-dropdown-selector span.active {
+    opacity: 1;
+    background-color: white;
+    color: unset;
+    background-color: #f3f3f3;
+}
+.redactor-dropdown-selector {
+    margin-bottom: 3px;
+}
+
+.redactor-dropdown-selector span {
+    opacity: .5;
+    font-weight: bold;
+}
+
+.redactor-box li {
+    overflow: visible !important;
+}
+.redactor-box ul {
+    list-style-type: disc;
+}
+
+.redactor-context-toolbar a {
+    color: #bbb !important;
+}
+.redactor-context-toolbar a:hover {
+    color: #fff !important;
+}

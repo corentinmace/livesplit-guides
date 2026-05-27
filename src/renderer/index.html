@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveSplit Guides</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+</head>
+<body class="view-page">
+
+  <div id="toolbar">
+    <div id="toolbar-left">
+      <select id="guide-select">
+        <option value="">-- Select a guide --</option>
+      </select>
+    </div>
+    <div id="toolbar-center">
+      <span id="status-dot" class="dot disconnected"></span>
+      <span id="status-label">Disconnected</span>
+      <button id="btn-retry-ws" class="hidden" title="Retry connection"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+      <span id="split-name-badge"></span>
+    </div>
+    <div id="toolbar-right">
+      <div id="font-size-control">
+        <i class="fa-solid fa-font fa-xs"></i>
+        <input id="font-size-slider" type="range" min="11" max="26" value="15" step="1" title="Font size" />
+        <i class="fa-solid fa-font fa-lg"></i>
+      </div>
+      <button id="btn-theme-toggle" title="Toggle light/dark theme"></button>
+      <button id="btn-editor" title="Open editor"><i class="fa-solid fa-pen-to-square"></i> Editor</button>
+      <button id="btn-settings" title="Settings"><i class="fa-solid fa-gear"></i></button>
+    </div>
+  </div>
+
+  <div id="settings-panel" class="hidden">
+    <div class="settings-row">
+      <label>WebSocket URL</label>
+      <input id="ws-url-input" type="text" placeholder="ws://localhost:16834/livesplit" />
+      <button id="btn-save-settings">Save &amp; reconnect</button>
+    </div>
+    <div class="settings-row">
+      <label>Guides folder</label>
+      <input id="guides-dir-input" type="text" readonly placeholder="Default (AppData)" />
+      <button id="btn-browse-guides-dir"><i class="fa-solid fa-folder-open"></i> Browse…</button>
+      <button id="btn-reset-guides-dir" title="Reset to default"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+    <button id="btn-close-settings">Close</button>
+  </div>
+
+  <div id="content">
+    <div id="no-guide">
+      <p>Select a guide from the list or create one in the editor.</p>
+    </div>
+    <div id="guide-view" class="hidden">
+      <!-- 70% - current split -->
+      <div id="current-panel">
+        <div id="split-header">
+          <button id="btn-prev-split" class="btn-nav" title="Previous split"><i class="fa-solid fa-chevron-left"></i></button>
+          <span id="split-index-label"></span>
+          <span id="split-title"></span>
+          <button id="btn-next-split" class="btn-nav" title="Next split"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div id="notes-display"></div>
+      </div>
+      <!-- 30% - next split -->
+      <div id="next-panel">
+        <div id="next-split-header">
+          <span class="next-label">Next</span>
+          <span id="next-split-title"></span>
+        </div>
+        <div id="next-notes-display"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="zoom-overlay">
+    <img id="zoom-img" src="" alt="" />
+  </div>
+
+  <script src="ws.js"></script>
+  <script src="view.js"></script>
+</body>
+</html>
