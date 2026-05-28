@@ -2,6 +2,8 @@ let guide = { name: '', splits: [] };
 let guideName = '';
 let selectedSplitIndex = -1;
 let dirty = false;
+let currentTheme = 'dark';
+let currentMode = 'dark';
 
 // DOM refs
 const guideNameInput = document.getElementById('guide-name-input');
@@ -13,6 +15,7 @@ const splitNameInput = document.getElementById('split-name-input');
 const editorStatusDot = document.getElementById('editor-status-dot');
 const editorStatusLabel = document.getElementById('editor-status-label');
 const editorBtnRetryWs = document.getElementById('btn-retry-ws');
+const editorThemeSelect = document.getElementById('editor-theme-select');
 
 // --- Redactor WYSIWYG ---
 
@@ -390,30 +393,64 @@ window.api.onLiveSplitEvent(async (ev) => {
   if (ev.type === 'guide-saved') {
     await refreshGuideList();
   } else if (ev.type === 'theme-changed') {
-    applyTheme(ev.theme);
+    applyTheme(ev.theme, ev.mode);
   }
 });
 
 // --- Theme ---
 
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
+function populateThemeSelect() {
+  const themes = [
+    ['dark', 'Dark'], ['abyss', 'Abyss'],
+    ['forest', 'Forest'], ['slate', 'Slate'], ['amber', 'Amber'],
+  ];
+  editorThemeSelect.innerHTML = '';
+  themes.forEach(([val, label]) => {
+    const opt = document.createElement('option');
+    opt.value = val;
+    opt.textContent = label;
+    editorThemeSelect.appendChild(opt);
+  });
+}
+
+function applyTheme(theme, mode) {
+  if (theme) { currentTheme = theme; document.documentElement.dataset.theme = theme; }
+  if (mode !== undefined) {
+    currentMode = mode;
+    if (mode === 'light') {
+      document.documentElement.dataset.mode = 'light';
+    } else {
+      delete document.documentElement.dataset.mode;
+    }
+  }
+  if (editorThemeSelect) editorThemeSelect.value = currentTheme;
   const btn = document.getElementById('btn-theme-toggle');
-  if (btn) btn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  if (btn) btn.innerHTML = currentMode === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
 }
 
 document.getElementById('btn-theme-toggle').addEventListener('click', async () => {
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  await window.api.setSetting('theme', next);
-  window.api.relayToMain({ type: 'theme-changed', theme: next });
+  const next = currentMode === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme, next);
+  await window.api.setSetting('theme', currentTheme);
+  await window.api.setSetting('themeMode', next);
+  window.api.relayToMain({ type: 'theme-changed', theme: currentTheme, mode: next });
+});
+
+editorThemeSelect.addEventListener('change', async () => {
+  const theme = editorThemeSelect.value;
+  await window.api.setSetting('theme', theme);
+  await window.api.setSetting('themeMode', currentMode);
+  applyTheme(theme, currentMode);
+  window.api.relayToMain({ type: 'theme-changed', theme: currentTheme, mode: currentMode });
 });
 
 // --- Init ---
 
 async function init() {
   const theme = await window.api.getSetting('theme') || 'dark';
-  applyTheme(theme);
+  const mode = await window.api.getSetting('themeMode') || 'dark';
+  populateThemeSelect();
+  applyTheme(theme, mode);
   await refreshGuideList();
   const activeGuide = await window.api.getSetting('activeGuide');
   if (activeGuide) {

@@ -35,6 +35,16 @@
 
   <div id="settings-panel" class="hidden">
     <div class="settings-row">
+      <label>Theme</label>
+      <select id="theme-select">
+        <option value="dark">Dark</option>
+        <option value="abyss">Abyss</option>
+        <option value="forest">Forest</option>
+        <option value="slate">Slate</option>
+        <option value="amber">Amber</option>
+      </select>
+    </div>
+    <div class="settings-row">
       <label>WebSocket URL</label>
       <input id="ws-url-input" type="text" placeholder="ws://localhost:16834/livesplit" />
       <button id="btn-save-settings">Save &amp; reconnect</button>

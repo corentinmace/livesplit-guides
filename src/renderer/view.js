@@ -1,5 +1,7 @@
 let guide = null;
 let currentIndex = 0;
+let currentTheme = 'dark';
+let currentMode = 'dark';
 
 const guideSelect = document.getElementById('guide-select');
 const statusDot = document.getElementById('status-dot');
@@ -15,6 +17,7 @@ const nextSplitTitle = document.getElementById('next-split-title');
 const nextNotesDisplay = document.getElementById('next-notes-display');
 const nextPanel = document.getElementById('next-panel');
 const settingsPanel = document.getElementById('settings-panel');
+const themeSelect = document.getElementById('theme-select');
 const wsUrlInput = document.getElementById('ws-url-input');
 const guidesDirInput = document.getElementById('guides-dir-input');
 
@@ -211,9 +214,11 @@ async function initWS() {
 // --- Settings panel ---
 
 document.getElementById('btn-settings').addEventListener('click', async () => {
-  // Populate current guides dir when opening
   const dir = await window.api.getSetting('guidesDir');
   guidesDirInput.value = dir || '';
+  const theme = await window.api.getSetting('theme') || 'dark';
+  const mode = await window.api.getSetting('themeMode') || 'dark';
+  applyTheme(theme, mode);
   settingsPanel.classList.toggle('hidden');
 });
 
@@ -226,6 +231,14 @@ document.getElementById('btn-save-settings').addEventListener('click', async () 
   await window.api.setSetting('wsUrl', url);
   ls.connect(url);
   settingsPanel.classList.add('hidden');
+});
+
+document.getElementById('theme-select').addEventListener('change', async () => {
+  const theme = themeSelect.value;
+  await window.api.setSetting('theme', theme);
+  await window.api.setSetting('themeMode', currentMode);
+  applyTheme(theme, currentMode);
+  window.api.relayToEditor({ type: 'theme-changed', theme: currentTheme, mode: currentMode });
 });
 
 document.getElementById('btn-browse-guides-dir').addEventListener('click', async () => {
@@ -248,24 +261,34 @@ document.getElementById('btn-editor').addEventListener('click', () => {
 
 // --- Theme ---
 
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
+function applyTheme(theme, mode) {
+  if (theme) { currentTheme = theme; document.documentElement.dataset.theme = theme; }
+  if (mode !== undefined) {
+    currentMode = mode;
+    if (mode === 'light') {
+      document.documentElement.dataset.mode = 'light';
+    } else {
+      delete document.documentElement.dataset.mode;
+    }
+  }
+  if (themeSelect) themeSelect.value = currentTheme;
   const btn = document.getElementById('btn-theme-toggle');
-  if (btn) btn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  if (btn) btn.innerHTML = currentMode === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
 }
 
 document.getElementById('btn-theme-toggle').addEventListener('click', async () => {
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  await window.api.setSetting('theme', next);
-  window.api.relayToEditor({ type: 'theme-changed', theme: next });
+  const next = currentMode === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme, next);
+  await window.api.setSetting('theme', currentTheme);
+  await window.api.setSetting('themeMode', next);
+  window.api.relayToEditor({ type: 'theme-changed', theme: currentTheme, mode: next });
 });
 
 window.api.onLiveSplitEvent(async (ev) => {
   if (ev.type === 'guide-saved') {
     await refreshGuideList();
   } else if (ev.type === 'theme-changed') {
-    applyTheme(ev.theme);
+    applyTheme(ev.theme, ev.mode);
   }
 });
 
@@ -273,7 +296,8 @@ window.api.onLiveSplitEvent(async (ev) => {
 
 async function init() {
   const theme = await window.api.getSetting('theme') || 'dark';
-  applyTheme(theme);
+  const mode = await window.api.getSetting('themeMode') || 'dark';
+  applyTheme(theme, mode);
   const fontSize = await window.api.getSetting('viewerFontSize') || 15;
   applyFontSize(fontSize);
   await refreshGuideList();
