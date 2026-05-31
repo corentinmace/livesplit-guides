@@ -403,6 +403,7 @@ function populateThemeSelect() {
   const themes = [
     ['dark', 'Dark'], ['abyss', 'Abyss'],
     ['forest', 'Forest'], ['slate', 'Slate'], ['amber', 'Amber'],
+    ['rose', 'Rose'], ['ocean', 'Ocean'], ['violet', 'Violet'],
   ];
   editorThemeSelect.innerHTML = '';
   themes.forEach(([val, label]) => {
